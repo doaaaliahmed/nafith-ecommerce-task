@@ -1,9 +1,22 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { IProducts } from "../pages/products";
-import Rating from "./Rating";
 
-const ProductCard: FC<IProducts> = ({
+import Rating from "./Rating";
+import { IRate } from "../core/products.interface";
+import { useAppDispatch } from "../store/hooks";
+import { getSingleProductsThunk } from "../store/getAllProducts.slice";
+
+type IProps = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  price: number;
+  category: string;
+  rating: IRate;
+};
+
+const ProductCard: FC<IProps> = ({
   id,
   title,
   description,
@@ -13,6 +26,12 @@ const ProductCard: FC<IProducts> = ({
   rating,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+
+  const viewSingleProduct = (id: number) => {
+    dispatch(getSingleProductsThunk(id)).then(() => navigate("/product/" + id));
+  };
 
   return (
     <div className="mx-2 w-80 lg:mb-0 mb-8 hover:shadow-2xl transition duration-300">
@@ -38,7 +57,7 @@ const ProductCard: FC<IProducts> = ({
           </div>
           <button
             className="grow-0  w-full  bg-yellow-400 p-4 text-sm font-medium transition hover:scale-105"
-            onClick={() => navigate("/product/" + id)}
+            onClick={() => viewSingleProduct(id)}
           >
             Add to Cart
           </button>

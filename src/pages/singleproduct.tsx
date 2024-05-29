@@ -1,28 +1,23 @@
-import { useEffect, useState } from "react";
-import ProductCard from "../components/ProductCard";
-import { useParams } from "react-router-dom";
-import { IProducts } from "./products";
+import { useEffect } from "react";
 import Rating from "../components/Rating";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { getSingleProductsThunk } from "../store/getAllProducts.slice";
+import { useParams } from "react-router-dom";
 
 const SingleProduct = () => {
-  const [product, setProduct] = useState<IProducts | null>(null);
-
+  const dispatch = useAppDispatch();
   const { id } = useParams();
+  const product = useAppSelector((state) => state.products.singleproduct);
+  const loading = useAppSelector((state) => state.products.loading);
 
   useEffect(() => {
-    const getSingleProduct = async () => {
-      const res = await fetch(`https://fakestoreapi.com/products/${id}`).then(
-        (res) => res.json()
-      );
-      setProduct(res);
-    };
-
-    getSingleProduct();
-  }, [id]);
+    const res = dispatch(getSingleProductsThunk(Number(id)));
+    console.log(product)
+  }, []);
 
   return (
     <>
-      {product && 
+      {product && (
         <div>
           <div className="mx-2 lg:mb-0 mb-8  flex flex-col lg:flex-row items-center ">
             <div className="w-full lg:w-1/2 max-w-xl flex items-center justify-center bg-white  py-4">
@@ -38,9 +33,13 @@ const SingleProduct = () => {
                   <legend className="text-gray-700 text-xs font-semibold bg-gray-300 py-1 px-2 rounded-md">
                     {product.category}
                   </legend>
-                  <h2 className="text-lg font-semibold md:text-3xl xl:text-5xl">{product.title}</h2>
+                  <h2 className="text-lg font-semibold md:text-3xl xl:text-5xl">
+                    {product.title}
+                  </h2>
                 </div>
-                <p className="my-10 text-xl xl:text-2xl font-semibold text-gray-600 mt-2">{product.description}</p>
+                <p className="my-10 text-xl xl:text-2xl font-semibold text-gray-600 mt-2">
+                  {product.description}
+                </p>
                 <Rating
                   rate={product.rating.rate}
                   count={product.rating.count}
@@ -54,7 +53,7 @@ const SingleProduct = () => {
             </div>
           </div>
         </div>
-      }
+      )}
     </>
   );
 };
