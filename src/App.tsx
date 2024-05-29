@@ -3,12 +3,14 @@ import "./App.scss";
 import Home from "./pages";
 import Products from './pages/products'
 import SingleProduct from "./pages/singleproduct";
+import Navbar from "./components/Navbar";
 
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+       
         <Route path="/" element={<Home />} />
         {/* {/* <Route path='/about' element={<About/>} /> */}
          <Route path='/products' element={<Products/>} />
