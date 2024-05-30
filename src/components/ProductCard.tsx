@@ -26,11 +26,11 @@ const ProductCard: FC<IProps> = ({
   rating,
 }) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+ 
 
 
   const viewSingleProduct = (id: number) => {
-    dispatch(getSingleProductsThunk(id)).then(() => navigate("/product/" + id));
+     navigate("/product/" + id)
   };
 
   return (

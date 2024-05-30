@@ -9,6 +9,7 @@ type productState = {
   loading: boolean;
   products: IProducts[] | undefined;
   singelProduct: IProducts | undefined;
+  productsSearch: IProducts[] | undefined;
 };
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   loading: false,
   products: undefined,
   singelProduct: undefined,
+  productsSearch: undefined,
 } as productState;
 
 export const getAllProductsThunk = createAsyncThunk<
@@ -97,8 +99,16 @@ const getAllProductsSlice = createSlice({
       state.error = action.payload;
     });
   },
-  reducers: {},
+  reducers: {
+    handleSearch(state, action) {
+      const title = String(action.payload).toLocaleLowerCase();
+      state.productsSearch = state.products?.filter((pr) =>
+        pr.title.toLowerCase().includes(title)
+      );
+    },
+  },
 });
 
 export default getAllProductsSlice;
+export const { handleSearch } = getAllProductsSlice.actions;
 export const getProductsReducer = getAllProductsSlice.reducer;
