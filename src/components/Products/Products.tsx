@@ -46,8 +46,16 @@ const Products = () => {
 
   return (
     <div className="flex items-stretch h-full w-full">
-      <FilterSidebar open={openSidebar} />
-      <div className="px-10 grow" id="products">
+      <FilterSidebar
+        open={openSidebar}
+        onClose={handleOpenSidebar}
+        additionalClass={`h-screen z-40 ${ !isMobileView ?  "fixed top-0 left-0" : ""}  ${
+          !openSidebar && !isMobileView
+            ? " -translate-x-full"
+            : " -translate-x-01"
+        }`}
+      />
+      <div className="px-2 sm:px-10 grow" id="products">
         <div className=" py-8 flex items-center justify-between">
           {!isMobileView ? (
             <button
@@ -74,7 +82,9 @@ const Products = () => {
               <span className="text-xl"> {t("filter")}</span>
             </button>
           ) : (
-            <h3 className="text-gray-800 font-semibold text-lg">Products List <span>({filterdProducts?.length})</span></h3>
+            <h3 className="text-gray-800 font-semibold text-lg">
+              {t('product-list')} <span>({filterdProducts?.length})</span>
+            </h3>
           )}
 
           <div className="relative mt-4 md:mt-0 max-w-2xl w-full">
@@ -119,7 +129,8 @@ const Products = () => {
           </button>
         </div>
 
-        <div className="pb-20 flex flex-wrap items-start justify-start gap-6 w-full  h-full overflow-y-auto">
+        {/* <div className="pb-20 flex flex-wrap items-start justify-start gap-6 w-full  h-full overflow-y-auto"> */}
+        <div className="pb-48 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3  2xl:grid-cols-4  h-full overflow-y-auto">
           {filterdProducts &&
             filterdProducts.map((m: IProducts) => (
               <ProductCard

@@ -30,7 +30,7 @@ const ProductCard: FC<IProps> = ({
   };
 
   return (
-    <div className="w-full max-w-80 hover:shadow-2xl transition duration-300 rounded-md">
+    <div className="hover:shadow-2xl transition duration-300 rounded-md">
       <div className="w-full h-52 flex items-center justify-center bg-white py-4 rounded-t-md">
         <img
           src={image}
@@ -40,7 +40,7 @@ const ProductCard: FC<IProps> = ({
       </div>
       <div className="bg-white rounded-b-md">
         <div className="p-4 ">
-          <div className="flex flex-col items-start gap-2 h-28">
+          <div className="flex flex-col items-start gap-2 h-28 sm:h-36 lg:h-28">
             <legend className="text-gray-700 text-xs font-semibold bg-gray-300 py-1 px-2 rounded-md">
               {category}
             </legend>

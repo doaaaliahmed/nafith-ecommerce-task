@@ -155,7 +155,7 @@ const getAllProductsSlice = createSlice({
     handleFilterByRating(state, action) {
       const rate = action.payload;
       state.filteredProducts = state.products?.filter(
-        (pr) => Math.trunc(pr.rating.rate) === rate
+        (pr) => Math.trunc(pr.rating.rate) >= rate
       );
     },
 
@@ -165,6 +165,9 @@ const getAllProductsSlice = createSlice({
         (pr) => pr.category === cat
       );
     },
+    handleFilterClear(state) {
+      state.filteredProducts = undefined;
+    },
   },
 });
 
@@ -172,5 +175,6 @@ export default getAllProductsSlice;
 export const { handleFilterBySearch } = getAllProductsSlice.actions;
 export const { handleFilterByRating } = getAllProductsSlice.actions;
 export const { handleFilterByCategories } = getAllProductsSlice.actions;
+export const { handleFilterClear } = getAllProductsSlice.actions;
 
 export const getProductsReducer = getAllProductsSlice.reducer;

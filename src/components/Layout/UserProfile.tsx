@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { handleChangeLanguage } from "../../store/language.slice";
 import { useTranslation } from "react-i18next";
 
 const UserProfile = () => {
   const { t } = useTranslation();
-
+  const dir = useAppSelector((state) => state.language.dir);
   const [isLogin, setIsLogin] = useState(false);
   const [isOpenUserDropDown, setIsOpenUserDropDown] = useState(false);
   const [isOpenLang, setIsOpenLang] = useState<boolean>(false);
+
   const dispatch = useAppDispatch();
 
   const handleOpenLanguage = () => setIsOpenLang(!isOpenLang);
@@ -37,11 +38,13 @@ const UserProfile = () => {
       </button>
       {isOpenLang && (
         <div
-          className={`absolute top-1/2 right-3/4 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow`}
+          className={`absolute top-1/2 ${
+            dir === "ltr" ? "right-3/4" : "left-3/4"
+          } z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow`}
           id="user-dropdown"
-          onMouseLeave={()=>setIsOpenLang(false)}
+          onMouseLeave={() => setIsOpenLang(false)}
         >
-          <ul className="py-2 w-32" aria-labelledby="user-menu-button" >
+          <ul className="py-2 w-32" aria-labelledby="user-menu-button">
             <li>
               <button
                 onClick={() => handleChangeLang(`ar`)}
@@ -84,57 +87,12 @@ const UserProfile = () => {
         <span className="absolute top-0 left-0 p-1 text-xs text-white bg-blue-500 rounded-full"></span>
       </Link>
 
-      {isLogin ? (
-        <div className="relative">
-          <button
-            type="button"
-            className="flex items-center focus:outline-none relattive"
-            aria-label="toggle profile dropdown"
-            onClick={() => setIsOpenUserDropDown(!isOpenUserDropDown)}
-          >
-            <div className="w-8 h-8  bg-gray-300 rounded-full grid place-items-center">
-              <img
-                src="/avatar-default-svgrepo-com.svg"
-                className="object-cover w-6 h-6"
-                alt="avatar"
-              />
-            </div>
-          </button>
-          {isOpenUserDropDown && (
-            <div
-              className={`absolute top-1/2 right-3/4 w-48 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow`}
-              id="user-dropdown"
-              onMouseLeave={()=>setIsOpenUserDropDown(false)}
-            >
-              <div className="px-4 py-3">
-                <span className="block text-sm text-gray-900 ">
-                  Bonnie Green
-                </span>
-                <span className="block text-sm  text-gray-500 truncate">
-                  name@flowbite.com
-                </span>
-              </div>
-              <ul className="py-2" aria-labelledby="user-menu-button">
-                <li>
-                  <button
-                    onClick={() => setIsLogin(!isLogin)}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                  >
-                    {t("signOut")}
-                  </button>
-                </li>
-              </ul>
-            </div>
-          )}
-        </div>
-      ) : (
-        <button
-          onClick={() => setIsLogin(!isLogin)}
-          className="px-2.5 md:px-4 py-1 font-normal text-gray-100 bg-blue-600  rounded-md  focus:outline-none"
-        >
-          {t("login")}
-        </button>
-      )}
+      <button
+        onClick={() => setIsLogin(!isLogin)}
+        className="px-2.5 md:px-4 py-1 font-normal text-gray-100 bg-blue-600  rounded-md  focus:outline-none"
+      >
+        {isLogin ? t("login") : t("signOut")}
+      </button>
     </div>
   );
 };

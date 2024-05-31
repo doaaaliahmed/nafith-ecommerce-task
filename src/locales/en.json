@@ -5,6 +5,11 @@
     "filter" : "filter" ,
     "sort" : "sort",
     "search" : "search",
-    "add-to-cart" : "add to cart"
+    "add-to-cart" : "add to cart",
+    "categories" : "categories",
+    "rating" : "rating",
+    "&-up" : "& up",
+    "clear-filter" :"clear filter",
+    "product-list" : "product list"
     }
 }
