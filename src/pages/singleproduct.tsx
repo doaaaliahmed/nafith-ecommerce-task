@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Rating from "../components/Rating";
+import Rating from "../components/Products/Rating";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { getSingleProductsThunk } from "../store/getAllProducts.slice";
 import { useParams } from "react-router-dom";

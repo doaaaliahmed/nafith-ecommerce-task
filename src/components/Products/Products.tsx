@@ -1,24 +1,21 @@
-import { FC, useEffect, useState } from "react";
-import ProductCard from "../components/ProductCard";
-// import SideBar from "../components/SideBar";
-import { IProducts } from "../core/products.interface";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useEffect, useState } from "react";
+import ProductCard from "./ProductCard";
+import { IProducts } from "../../core/products.interface";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   getAllProductsThunk,
-  handleSearch,
-} from "../store/getAllProducts.slice";
+  handleFilterBySearch,
+} from "../../store/getAllProducts.slice";
 import { useTranslation } from "react-i18next";
-import Content from "./Layout/Content";
-import SideBar from "./Layout/SideBar";
-import useDeviceSize from "../hooks/useWindowSize";
+import useDeviceSize from "../../hooks/useWindowSize";
+import FilterSidebar from "./FilerSideBar";
 
 const Products = () => {
   const { t } = useTranslation();
-  const [openFilter, setOpenFilter] = useState<boolean>(false);
-
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.products.products);
-  const search = useAppSelector((state) => state.products.productsSearch);
+  const search = useAppSelector((state) => state.products.foundedProducts);
+  const filterd = useAppSelector((state) => state.products.filteredProducts);
   const loading = useAppSelector((state) => state.products.loading);
   const [filterdProducts, setFilterdProducts] = useState<IProducts[]>([]);
   const isMobileView = useDeviceSize(1024);
@@ -27,16 +24,21 @@ const Products = () => {
 
   const handleOpenSidebar = () => setOpenSidebar(!openSidebar);
 
-  const handleSearchProducts = (e: any) =>
-    dispatch(handleSearch(e.target.value));
+  const handleSearchProducts = (e: any) => {
+    dispatch(handleFilterBySearch(e.target.value));
+  };
 
   useEffect(() => {
     dispatch(getAllProductsThunk(null));
   }, [dispatch]);
 
   useEffect(() => {
-    search ? setFilterdProducts(search) : setFilterdProducts(products);
-  }, [search, products]);
+    filterd
+      ? setFilterdProducts(filterd)
+      : search
+      ? setFilterdProducts(search)
+      : setFilterdProducts(products);
+  }, [filterd, search, products]);
 
   useEffect(() => {
     console.log(isMobileView);
@@ -44,7 +46,7 @@ const Products = () => {
 
   return (
     <div className="flex items-stretch h-full w-full">
-      <SideBar open={openSidebar} />
+      <FilterSidebar open={openSidebar} />
       <div className="px-10 grow" id="products">
         <div className=" py-8 flex items-center justify-between">
           {!isMobileView ? (
@@ -72,7 +74,7 @@ const Products = () => {
               <span className="text-xl"> {t("filter")}</span>
             </button>
           ) : (
-            <h3>Products List ({filterdProducts.length})</h3>
+            <h3 className="text-gray-800 font-semibold text-lg">Products List <span>({filterdProducts?.length})</span></h3>
           )}
 
           <div className="relative mt-4 md:mt-0 max-w-2xl w-full">
@@ -117,7 +119,7 @@ const Products = () => {
           </button>
         </div>
 
-        <div className="pb-20 flex flex-wrap items-center justify-center gap-6 w-full  h-full overflow-y-auto">
+        <div className="pb-20 flex flex-wrap items-start justify-start gap-6 w-full  h-full overflow-y-auto">
           {filterdProducts &&
             filterdProducts.map((m: IProducts) => (
               <ProductCard

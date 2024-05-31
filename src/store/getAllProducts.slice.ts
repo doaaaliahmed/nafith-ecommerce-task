@@ -3,13 +3,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { allProducts } from "../core/services/getProducts";
 import { singleProduct } from "../core/services/getSingleProduct";
+import { allCategories } from "../core/services/getCategories";
 
 type productState = {
   error: any | undefined;
   loading: boolean;
   products: IProducts[] | undefined;
   singelProduct: IProducts | undefined;
-  productsSearch: IProducts[] | undefined;
+  filteredProducts: IProducts[] | undefined;
+  foundedProducts: IProducts[] | undefined;
+  allCategories: string[] | undefined;
+  ratings: string[] | undefined;
 };
 
 const initialState = {
@@ -17,7 +21,8 @@ const initialState = {
   loading: false,
   products: undefined,
   singelProduct: undefined,
-  productsSearch: undefined,
+  filteredProducts: undefined,
+  foundedProducts: undefined,
 } as productState;
 
 export const getAllProductsThunk = createAsyncThunk<
@@ -70,6 +75,32 @@ export const getSingleProductsThunk = createAsyncThunk<
   }
 });
 
+//----Single Product------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+export const getCategoriesThunk = createAsyncThunk<
+  Array<string>,
+  null,
+  { rejectValue: ErrorModel }
+>(`products / getCategories`, async (_, { rejectWithValue }) => {
+  try {
+    const response: any = await allCategories.getCategories();
+    return response;
+  } catch (err: any) {
+    let error: ErrorModel = {
+      errorTitle: ``,
+      errorStatus: ``,
+      errorMessage: ``,
+      statusCode: 0,
+    };
+    if (err instanceof AxiosError) {
+      error.errorTitle = err.name;
+      error.errorMessage = err.message;
+      error.errorStatus = err.code;
+    } else error = err;
+    return rejectWithValue(err);
+  }
+});
+
 const getAllProductsSlice = createSlice({
   name: `products`,
   initialState,
@@ -98,19 +129,48 @@ const getAllProductsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
+
+    //all Categories
+    builder.addCase(getCategoriesThunk.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getCategoriesThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.allCategories = action.payload;
+    });
+    builder.addCase(getCategoriesThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   },
+
   reducers: {
-    handleSearch(state, action) {
+    handleFilterBySearch(state, action) {
       const title = String(action.payload).toLocaleLowerCase();
-      state.productsSearch = state.products?.filter((pr) =>
+      state.foundedProducts = state.products?.filter((pr) =>
         pr.title.toLowerCase().includes(title)
       );
     },
 
+    handleFilterByRating(state, action) {
+      const rate = action.payload;
+      state.filteredProducts = state.products?.filter(
+        (pr) => Math.trunc(pr.rating.rate) === rate
+      );
+    },
+
+    handleFilterByCategories(state, action) {
+      const cat = action.payload;
+      state.filteredProducts = state.products?.filter(
+        (pr) => pr.category === cat
+      );
+    },
   },
 });
 
 export default getAllProductsSlice;
-export const { handleSearch } = getAllProductsSlice.actions;
+export const { handleFilterBySearch } = getAllProductsSlice.actions;
+export const { handleFilterByRating } = getAllProductsSlice.actions;
+export const { handleFilterByCategories } = getAllProductsSlice.actions;
 
 export const getProductsReducer = getAllProductsSlice.reducer;
