@@ -40,7 +40,7 @@ const FilterSidebar = ({
         className={`${additionalClass} ease-in-out transition-all duration-500 flex justify-start items-start  bg-gray-100 shadow flex-col gap-4 pt-6`}
         aria-label="sidebar"
       >
-        <div className="lg:hidden flex items-center justify-between py-4 px-2 w-full border-b-[0.5px] border-b-gray-400">
+        <div className="lg:hidden flex rtl:flex-reverse  items-center justify-between py-4 px-2 w-full border-b-[0.5px] border-b-gray-400">
           <Link to="/">
             <p className="font-bold text-gray-800 text-lg">LOGO</p>
           </Link>
@@ -82,14 +82,14 @@ const FilterSidebar = ({
                 </span>
               </p>
 
-              <ul id="dropdown-example" className={``}>
-                {[4, 3, 2].map((m, idx) => (
+              <ul id="default-radio" className={``}>
+                {[4.5, 4, 3.5, 3].map((m, idx) => (
                   <li
-                    key={Math.random() * idx + 200}
+                    key={`default-radio-${idx}`}
                     className="flex items-center py-2  ltr:pl-11 rtl:pr-11"
                   >
                     <input
-                      id={`rate-${m}`}
+                      id={`default-radio-${idx}`}
                       type="radio"
                       value={m}
                       name="default-radio"
@@ -97,7 +97,7 @@ const FilterSidebar = ({
                       onChange={handlefilterByRatingRating}
                     />
                     <label
-                      htmlFor={`rate-${m}`}
+                      htmlFor={`default-radio-${idx}`}
                       className="ms-2 text-sm font-medium text-gray-900 "
                     >
                       <Rating rate={m} />

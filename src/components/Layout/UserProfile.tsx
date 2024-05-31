@@ -3,12 +3,11 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { handleChangeLanguage } from "../../store/language.slice";
 import { useTranslation } from "react-i18next";
+import { allRoutes } from "../../routes";
 
 const UserProfile = () => {
   const { t } = useTranslation();
   const dir = useAppSelector((state) => state.language.dir);
-  const [isLogin, setIsLogin] = useState(false);
-  const [isOpenUserDropDown, setIsOpenUserDropDown] = useState(false);
   const [isOpenLang, setIsOpenLang] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
@@ -66,7 +65,7 @@ const UserProfile = () => {
       )}
 
       <Link
-        to="#"
+        to="/cart"
         className="relative text-gray-700 transition-colors duration-300 transform  hover:text-gray-600 "
       >
         <svg
@@ -86,13 +85,6 @@ const UserProfile = () => {
 
         <span className="absolute top-0 left-0 p-1 text-xs text-white bg-blue-500 rounded-full"></span>
       </Link>
-
-      <button
-        onClick={() => setIsLogin(!isLogin)}
-        className="px-2.5 md:px-4 py-1 font-normal text-gray-100 bg-blue-600  rounded-md  focus:outline-none"
-      >
-        {isLogin ? t("login") : t("signOut")}
-      </button>
     </div>
   );
 };

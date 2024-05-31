@@ -10,6 +10,10 @@
     "rating" : "rating",
     "&-up" : "& up",
     "clear-filter" :"clear filter",
-    "product-list" : "product list"
+    "product-list" : "product list",
+    "highest-rating" : "heighest rating",
+    "highest-price" : "heighest price",
+    "most-popular" : "most poular",
+    "shopping-cart" : "shopping cart"
     }
 }

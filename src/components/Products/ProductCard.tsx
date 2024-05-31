@@ -40,7 +40,7 @@ const ProductCard: FC<IProps> = ({
       </div>
       <div className="bg-white rounded-b-md">
         <div className="p-4 ">
-          <div className="flex flex-col items-start gap-2 h-28 sm:h-36 lg:h-28">
+          <div className="flex flex-col items-start gap-2 h-28 md:h-36 xl:h-28">
             <legend className="text-gray-700 text-xs font-semibold bg-gray-300 py-1 px-2 rounded-md">
               {category}
             </legend>
@@ -51,7 +51,7 @@ const ProductCard: FC<IProps> = ({
               {title}
             </h2>
           </div>
-          {/* <p className="text-xs text-gray-600 mt-2">{description}</p> */}
+
           <Rating rate={rating.rate} count={rating.count} />
           <div className="flex items-center justify-between pb-4">
             <p className="text-gray-700 text-xl font-semibold">${price}</p>
