@@ -1,14 +1,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../store/hooks";
+import { handleChangeLanguage } from "../../store/language.slice";
+import { useTranslation } from "react-i18next";
 
 const UserProfile = () => {
+  const { t } = useTranslation();
+
   const [isLogin, setIsLogin] = useState(false);
   const [isOpenUserDropDown, setIsOpenUserDropDown] = useState(false);
   const [isOpenLang, setIsOpenLang] = useState<boolean>(false);
-  const [language, setLanguage] = useState<string>("en");
-
+  const dispatch = useAppDispatch();
 
   const handleOpenLanguage = () => setIsOpenLang(!isOpenLang);
+
+  const handleChangeLang = (lang: string) => {
+    dispatch(handleChangeLanguage(lang));
+    setIsOpenLang(false);
+  };
 
   return (
     <div className="relative  flex items-center gap-4 mx-4">
@@ -27,31 +36,31 @@ const UserProfile = () => {
         </div>
       </button>
       {isOpenLang && (
-            <div
-              className={`absolute top-1/2 right-3/4 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow`}
-              id="user-dropdown"
-            >
-             
-              <ul className="py-2 w-32" aria-labelledby="user-menu-button">
-                <li>
-                  <button
-                    onClick={() => setLanguage(`ar`)}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                  >
-                    Arabic
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => setLanguage(`en`)}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                  >
-                    English
-                  </button>
-                </li>
-              </ul>
-            </div>
-          )}
+        <div
+          className={`absolute top-1/2 right-3/4 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow`}
+          id="user-dropdown"
+          onMouseLeave={()=>setIsOpenLang(false)}
+        >
+          <ul className="py-2 w-32" aria-labelledby="user-menu-button" >
+            <li>
+              <button
+                onClick={() => handleChangeLang(`ar`)}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+              >
+                {t("arabic")}
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => handleChangeLang(`en`)}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+              >
+                {t("english")}
+              </button>
+            </li>
+          </ul>
+        </div>
+      )}
 
       <Link
         to="#"
@@ -95,6 +104,7 @@ const UserProfile = () => {
             <div
               className={`absolute top-1/2 right-3/4 w-48 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow`}
               id="user-dropdown"
+              onMouseLeave={()=>setIsOpenUserDropDown(false)}
             >
               <div className="px-4 py-3">
                 <span className="block text-sm text-gray-900 ">
@@ -110,7 +120,7 @@ const UserProfile = () => {
                     onClick={() => setIsLogin(!isLogin)}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                   >
-                    Sign out
+                    {t("signOut")}
                   </button>
                 </li>
               </ul>
@@ -120,9 +130,9 @@ const UserProfile = () => {
       ) : (
         <button
           onClick={() => setIsLogin(!isLogin)}
-          className="px-2.5 py-1 font-normal text-white bg-gray-500  rounded-lg  focus:outline-none"
+          className="px-2.5 md:px-4 py-1 font-normal text-gray-100 bg-blue-600  rounded-md  focus:outline-none"
         >
-          Login
+          {t("login")}
         </button>
       )}
     </div>

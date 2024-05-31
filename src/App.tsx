@@ -3,20 +3,24 @@ import "./App.scss";
 import Home from "./pages";
 import SingleProduct from "./pages/singleproduct";
 import { Provider } from "react-redux";
-import { store } from "./store/store";
-import { routes } from "./routes";
+import { persistor, store } from "./store/store";
 import Layout from "./components/Layout/Layout";
+import { PersistGate } from "redux-persist/integration/react";
+
 
 function App() {
+
   return (
     <BrowserRouter>
       <Provider store={store}>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/product/:id" element={<SingleProduct />} />
-          </Routes>
-        </Layout>
+        <PersistGate loading={null} persistor={persistor}>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/product/:id" element={<SingleProduct />} />
+            </Routes>
+          </Layout>
+        </PersistGate>
       </Provider>
     </BrowserRouter>
   );

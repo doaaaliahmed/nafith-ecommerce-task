@@ -1,0 +1,10 @@
+{
+    "translation": {
+    "arabic" : "Arabic",
+    "english" : "English",
+    "filter" : "filter" ,
+    "sort" : "sort",
+    "search" : "search",
+    "add-to-cart" : "add to cart"
+    }
+}

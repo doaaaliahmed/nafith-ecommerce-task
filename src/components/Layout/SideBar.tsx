@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 const SideBar = ({ open }: { open: boolean }) => {
-  // !open ? "-translate-x-full" : "-translate-x-01"
   const [viewCategories, setViewCategories] = useState<boolean>(false);
   const [categories, setCategories] = useState<string[]>([]);
 
@@ -24,10 +23,10 @@ const SideBar = ({ open }: { open: boolean }) => {
   return (
     <>
       <aside
-        className={`fixed top-0 left-0 z-40 h-screen bg-gray-50 `}
+        className={`ease-in-out transition-all duration-500 flex justify-start items-start  bg-gray-100 shadow flex-col gap-4 pt-6`}
         aria-label="Sidebar"
       >
-        <div className="h-full w-96 px-3 py-4 overflow-y-auto ">
+        <div className={`w-80 h-full  px-3 py-4 overflow-y-auto `}>
           <ul className="w-full space-y-2 font-medium">
             <li className="w-full">
               <button

@@ -106,9 +106,11 @@ const getAllProductsSlice = createSlice({
         pr.title.toLowerCase().includes(title)
       );
     },
+
   },
 });
 
 export default getAllProductsSlice;
 export const { handleSearch } = getAllProductsSlice.actions;
+
 export const getProductsReducer = getAllProductsSlice.reducer;
