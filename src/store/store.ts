@@ -9,21 +9,21 @@ import {
 import { getProductsReducer } from "./getAllProducts.slice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
-import languageSlice from "./language.slice";
-
-
+import { getLanguageReducer } from "./language.slice";
+import { getCartReducer } from "./cart.slice";
 
 const persistConfig = {
-  key: "lang",
+  key: "root",
   storage,
-  whitelist: ['language'],
+  blacklist: ["products"],
 };
 
 // REDUCERS
 // ---------------------------------------------------------------------------------------------------------------------
 const combinedReducers: Reducer = combineReducers({
   products: getProductsReducer,
-  language : languageSlice,
+  language: getLanguageReducer,
+  cart: getCartReducer,
 });
 
 // ---------------------------------------------------------------------------------------------------------------------

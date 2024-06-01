@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { handleChangeLanguage } from "../../store/language.slice";
 import { useTranslation } from "react-i18next";
 
 const UserProfile = () => {
   const { t } = useTranslation();
-
-  const [isLogin, setIsLogin] = useState(false);
-  const [isOpenUserDropDown, setIsOpenUserDropDown] = useState(false);
+  const dir = useAppSelector((state) => state.language.dir);
   const [isOpenLang, setIsOpenLang] = useState<boolean>(false);
+  const totalQuantity = useAppSelector((state) => state.cart.totalQuantity);
+
   const dispatch = useAppDispatch();
 
   const handleOpenLanguage = () => setIsOpenLang(!isOpenLang);
@@ -19,6 +19,10 @@ const UserProfile = () => {
     setIsOpenLang(false);
   };
 
+  useEffect(()=>{
+    
+  })
+
   return (
     <div className="relative  flex items-center gap-4 mx-4">
       <button
@@ -27,7 +31,7 @@ const UserProfile = () => {
         aria-label="toggle profile dropdown"
         onClick={handleOpenLanguage}
       >
-        <div className="w-8 h-8  rounded-full grid place-items-center">
+        <div className="w-10 h-10  rounded-full grid place-items-center">
           <img
             src="/language-svgrepo-com.svg"
             className="object-cover w-6 h-6"
@@ -37,11 +41,13 @@ const UserProfile = () => {
       </button>
       {isOpenLang && (
         <div
-          className={`absolute top-1/2 right-3/4 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow`}
+          className={`absolute top-1/2 ${
+            dir === "ltr" ? "right-3/4" : "left-3/4"
+          } z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow`}
           id="user-dropdown"
-          onMouseLeave={()=>setIsOpenLang(false)}
+          onMouseLeave={() => setIsOpenLang(false)}
         >
-          <ul className="py-2 w-32" aria-labelledby="user-menu-button" >
+          <ul className="py-2 w-32" aria-labelledby="user-menu-button">
             <li>
               <button
                 onClick={() => handleChangeLang(`ar`)}
@@ -63,11 +69,11 @@ const UserProfile = () => {
       )}
 
       <Link
-        to="#"
+        to="/cart"
         className="relative text-gray-700 transition-colors duration-300 transform  hover:text-gray-600 "
       >
         <svg
-          className="w-6 h-6"
+          className="w-8 h-8"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -81,60 +87,10 @@ const UserProfile = () => {
           />
         </svg>
 
-        <span className="absolute top-0 left-0 p-1 text-xs text-white bg-blue-500 rounded-full"></span>
+        {totalQuantity !== 0 && <span className="absolute -top-1 -left-1 text-xs bg-blue-600 z-40 w-5 h-5 text-xs text-white rounded-full grid place-items-center">
+          {totalQuantity}
+        </span>}
       </Link>
-
-      {isLogin ? (
-        <div className="relative">
-          <button
-            type="button"
-            className="flex items-center focus:outline-none relattive"
-            aria-label="toggle profile dropdown"
-            onClick={() => setIsOpenUserDropDown(!isOpenUserDropDown)}
-          >
-            <div className="w-8 h-8  bg-gray-300 rounded-full grid place-items-center">
-              <img
-                src="/avatar-default-svgrepo-com.svg"
-                className="object-cover w-6 h-6"
-                alt="avatar"
-              />
-            </div>
-          </button>
-          {isOpenUserDropDown && (
-            <div
-              className={`absolute top-1/2 right-3/4 w-48 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow`}
-              id="user-dropdown"
-              onMouseLeave={()=>setIsOpenUserDropDown(false)}
-            >
-              <div className="px-4 py-3">
-                <span className="block text-sm text-gray-900 ">
-                  Bonnie Green
-                </span>
-                <span className="block text-sm  text-gray-500 truncate">
-                  name@flowbite.com
-                </span>
-              </div>
-              <ul className="py-2" aria-labelledby="user-menu-button">
-                <li>
-                  <button
-                    onClick={() => setIsLogin(!isLogin)}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                  >
-                    {t("signOut")}
-                  </button>
-                </li>
-              </ul>
-            </div>
-          )}
-        </div>
-      ) : (
-        <button
-          onClick={() => setIsLogin(!isLogin)}
-          className="px-2.5 md:px-4 py-1 font-normal text-gray-100 bg-blue-600  rounded-md  focus:outline-none"
-        >
-          {t("login")}
-        </button>
-      )}
     </div>
   );
 };

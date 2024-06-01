@@ -22,4 +22,4 @@ const laguSlice = createSlice({
 });
 
 export const { handleChangeLanguage } = laguSlice.actions;
-export default laguSlice.reducer;
+export const getLanguageReducer = laguSlice.reducer;

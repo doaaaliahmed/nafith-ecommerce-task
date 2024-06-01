@@ -2,8 +2,10 @@ import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Rating from "./Rating";
-import { IRate } from "../../core/products.interface";
+import { IRate } from "../../core/model/products.interface";
 import { useTranslation } from "react-i18next";
+import { useAppDispatch } from "../../store/hooks";
+import { addToCart } from "../../store/cart.slice";
 
 type IProps = {
   id: number;
@@ -24,13 +26,18 @@ const ProductCard: FC<IProps> = ({
 }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const viewSingleProduct = (id: number) => {
     navigate("/product/" + id);
   };
 
+  const handleAddToCart = (id: number) => {
+    dispatch(addToCart(id));
+  };
+
   return (
-    <div className="w-full max-w-80 hover:shadow-2xl transition duration-300 rounded-md">
+    <div className="hover:shadow-2xl transition duration-300 rounded-md">
       <div className="w-full h-52 flex items-center justify-center bg-white py-4 rounded-t-md">
         <img
           src={image}
@@ -40,7 +47,7 @@ const ProductCard: FC<IProps> = ({
       </div>
       <div className="bg-white rounded-b-md">
         <div className="p-4 ">
-          <div className="flex flex-col items-start gap-2 h-28">
+          <div className="flex flex-col items-start gap-2 h-28 md:h-36 xl:h-28">
             <legend className="text-gray-700 text-xs font-semibold bg-gray-300 py-1 px-2 rounded-md">
               {category}
             </legend>
@@ -51,12 +58,15 @@ const ProductCard: FC<IProps> = ({
               {title}
             </h2>
           </div>
-          {/* <p className="text-xs text-gray-600 mt-2">{description}</p> */}
+
           <Rating rate={rating.rate} count={rating.count} />
           <div className="flex items-center justify-between pb-4">
             <p className="text-gray-700 text-xl font-semibold">${price}</p>
           </div>
-          <button className="grow-0  w-full  bg-blue-600 text-gray-100 p-4 text-sm font-medium transition hover:scale-105 flex items-center justify-center gap-2 rounded-md">
+          <button
+            onClick={() => handleAddToCart(id)}
+            className="grow-0  w-full  bg-blue-600 text-gray-100 p-4 text-sm font-medium transition hover:scale-105 flex items-center justify-center gap-2 rounded-md"
+          >
             <span>
               <img
                 src="/shopping-cart-outline-svgrepo-com.svg"

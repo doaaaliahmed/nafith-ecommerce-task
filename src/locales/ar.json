@@ -2,11 +2,18 @@
     "translation": {
     "arabic" : "اللغه العربية",
     "english" : "الغه الانجليزية",
-    "login" : "تسجيل الدخول",
-    "signOut" : "تسجيل الخروج",
     "filter" : "تصنيفات" ,
     "sort" : "الترتيب",
     "search" : "بحث",
-    "add-to-cart" : "الإضافه الي عربة التسوق"
+    "add-to-cart" : "الإضافه الي عربة التسوق",
+    "categories" : "الاقسام",
+    "rating" : "تقييم المنتج",
+    "&-up" : "أو أعلي",
+    "clear-filter" :"مسح الكل",
+    "product-list" : "عدد المنتجات",
+    "highest-rating" : "الافضل تقييم ",
+    "highest-price" : "الاعلي سعر",
+    "most-popular" : "الاعلي شعبية",
+    "shopping-cart" : "عربة التسوق"
     }
 }
