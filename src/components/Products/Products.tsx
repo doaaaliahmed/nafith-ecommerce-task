@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
-import { IProducts } from "../../core/products.interface";
+import { IProducts } from "../../core/model/products.interface";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   getAllProductsThunk,
@@ -170,7 +170,7 @@ const Products = () => {
             <Loader />
           </div>
         ) : (
-          <div className="pb-48 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3  2xl:grid-cols-4  h-full overflow-y-auto">
+          <div className="pb-48 grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3  2xl:grid-cols-4  h-full overflow-y-auto">
             {filterdProducts &&
               filterdProducts.map((m: IProducts) => (
                 <ProductCard

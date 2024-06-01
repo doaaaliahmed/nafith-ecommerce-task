@@ -21,7 +21,7 @@ const Layout: FC<IProps> = ({ children }) => {
   }, [currentLang, language, changeLanguage, dir]);
 
   return (
-    <div className= 'w-screen h-screen overflow-hidden'>
+    <div className= ''>
       <Navbar />
       <Content>{children}</Content>
     </div>

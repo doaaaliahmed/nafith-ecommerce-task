@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IProducts } from "../products.interface";
+import { IProducts } from "../model/products.interface";
 
 class GetSingleProduct {
   async getSingleProduct(id: number): Promise<IProducts> {

@@ -1,4 +1,4 @@
-import { ErrorModel, IProducts } from "../core/products.interface";
+import { ErrorModel, IProducts } from "../core/model/products.interface";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { allProducts } from "../core/services/getProducts";

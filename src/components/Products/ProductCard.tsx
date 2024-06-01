@@ -2,8 +2,10 @@ import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Rating from "./Rating";
-import { IRate } from "../../core/products.interface";
+import { IRate } from "../../core/model/products.interface";
 import { useTranslation } from "react-i18next";
+import { useAppDispatch } from "../../store/hooks";
+import { addToCart } from "../../store/cart.slice";
 
 type IProps = {
   id: number;
@@ -24,9 +26,14 @@ const ProductCard: FC<IProps> = ({
 }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const viewSingleProduct = (id: number) => {
     navigate("/product/" + id);
+  };
+
+  const handleAddToCart = (id: number) => {
+    dispatch(addToCart(id));
   };
 
   return (
@@ -56,7 +63,10 @@ const ProductCard: FC<IProps> = ({
           <div className="flex items-center justify-between pb-4">
             <p className="text-gray-700 text-xl font-semibold">${price}</p>
           </div>
-          <button className="grow-0  w-full  bg-blue-600 text-gray-100 p-4 text-sm font-medium transition hover:scale-105 flex items-center justify-center gap-2 rounded-md">
+          <button
+            onClick={() => handleAddToCart(id)}
+            className="grow-0  w-full  bg-blue-600 text-gray-100 p-4 text-sm font-medium transition hover:scale-105 flex items-center justify-center gap-2 rounded-md"
+          >
             <span>
               <img
                 src="/shopping-cart-outline-svgrepo-com.svg"

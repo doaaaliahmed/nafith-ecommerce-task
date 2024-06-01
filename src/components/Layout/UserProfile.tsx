@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { handleChangeLanguage } from "../../store/language.slice";
 import { useTranslation } from "react-i18next";
-import { allRoutes } from "../../routes";
 
 const UserProfile = () => {
   const { t } = useTranslation();
   const dir = useAppSelector((state) => state.language.dir);
   const [isOpenLang, setIsOpenLang] = useState<boolean>(false);
+  const totalQuantity = useAppSelector((state) => state.cart.totalQuantity);
 
   const dispatch = useAppDispatch();
 
@@ -19,6 +19,10 @@ const UserProfile = () => {
     setIsOpenLang(false);
   };
 
+  useEffect(()=>{
+    
+  })
+
   return (
     <div className="relative  flex items-center gap-4 mx-4">
       <button
@@ -27,7 +31,7 @@ const UserProfile = () => {
         aria-label="toggle profile dropdown"
         onClick={handleOpenLanguage}
       >
-        <div className="w-8 h-8  rounded-full grid place-items-center">
+        <div className="w-10 h-10  rounded-full grid place-items-center">
           <img
             src="/language-svgrepo-com.svg"
             className="object-cover w-6 h-6"
@@ -69,7 +73,7 @@ const UserProfile = () => {
         className="relative text-gray-700 transition-colors duration-300 transform  hover:text-gray-600 "
       >
         <svg
-          className="w-6 h-6"
+          className="w-8 h-8"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +87,9 @@ const UserProfile = () => {
           />
         </svg>
 
-        <span className="absolute top-0 left-0 p-1 text-xs text-white bg-blue-500 rounded-full"></span>
+        {totalQuantity !== 0 && <span className="absolute -top-1 -left-1 text-xs bg-blue-600 z-40 w-5 h-5 text-xs text-white rounded-full grid place-items-center">
+          {totalQuantity}
+        </span>}
       </Link>
     </div>
   );
