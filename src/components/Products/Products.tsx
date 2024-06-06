@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import useDeviceSize from "../../hooks/useWindowSize";
 import FilterSidebar from "./FilerSideBar";
 import Loader from "../UI/Loader";
+import NewProductModal from "./NewProductModal";
 
 const Products = () => {
   const { t } = useTranslation();
@@ -38,8 +39,11 @@ const Products = () => {
   const [openSidebar, setOpenSidebar] = useState<boolean>(false);
   const [isOpenSortingOption, setIsOpenSortingOption] =
     useState<boolean>(false);
+  const [openNewProduct, setOpenNewProduct] = useState<boolean>(false);
 
   const handleOpenSidebar = () => setOpenSidebar(!openSidebar);
+
+  const handleCloseAddNewProductModal = ()=> setOpenNewProduct(false)
 
   const handleSearchProducts = (e: any) => {
     dispatch(handleFilterBySearch(e.target.value));
@@ -57,9 +61,8 @@ const Products = () => {
       : setFilterdProducts(products);
   }, [filterd, search, products]);
 
-
-
   return (
+    <>
     <div className="flex items-stretch h-full w-full">
       <FilterSidebar
         open={openSidebar}
@@ -128,7 +131,7 @@ const Products = () => {
               onChange={handleSearchProducts}
             />
           </div>
-          <div className="relative">
+          <div className="relative flex items-center gap-2">
             <button
               type="button"
               onClick={() => setIsOpenSortingOption(!isOpenSortingOption)}
@@ -144,6 +147,14 @@ const Products = () => {
               >
                 <path d="M7 20h2V8h3L8 4 4 8h3zm13-4h-3V4h-2v12h-3l4 4z" />
               </svg>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setOpenNewProduct(true)}
+              className="px-4 py-1 text-gray-100 uppercase bg-blue-600 rounded-lg  hover:bg-blue-500 focus:outline-none "
+            >
+              + add new
             </button>
 
             {isOpenSortingOption && (
@@ -187,6 +198,9 @@ const Products = () => {
         )}
       </div>
     </div>
+
+        {openNewProduct && <NewProductModal onClose={handleCloseAddNewProductModal}/>}
+    </>
   );
 };
 

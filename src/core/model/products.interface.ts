@@ -20,3 +20,12 @@ export interface ErrorModel{
   errorMessage : string;
   statusCode : number;
 }
+
+
+export interface IFormNewProduct {
+  title: string,
+  price: number,
+  description: string,
+  image: string,
+  category: string
+}
